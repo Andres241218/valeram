@@ -238,16 +238,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const subtitle = romanticMessage.querySelector('.message-subtitle');
                 
                 if (title) {
-                    title.textContent = 'Mi amor eterno';
+                    title.textContent = 'Te amo con todo mi ser, mi Pricesita hermosa';
                     title.style.color = '#FF69B4';
                 }
                 
                 if (text) {
-                    text.textContent = 'Cada día a tu lado es un regalo del cielo';
+                    text.textContent = 'Quiero que sepas que te amo con todo mi corazon, que jamas te dejare sola y quiero que me aceptes de nuevo como tu novio';
                 }
                 
                 if (subtitle) {
-                    subtitle.textContent = 'ERES MI TODO';
+                    subtitle.textContent = 'perdoname por ser tan grosero contigo';
                     subtitle.style.color = '#FF1493';
                 }
                 
