@@ -1,82 +1,24 @@
-// ===== SISTEMA DE MÚSICA MEJORADO =====
+// ===== SISTEMA DE MÚSICA SIMPLE =====
 window.backgroundMusic = null;
-let musicInitialized = false;
 
 function initMusic() {
-    if (!musicInitialized) {
-        // Crear elemento de audio
-        window.backgroundMusic = new Audio();
-        window.backgroundMusic.src = "Runnin' Home to You.mp3";
-        window.backgroundMusic.loop = true;
-        window.backgroundMusic.volume = 0.3;
-        window.backgroundMusic.preload = 'auto';
-        window.backgroundMusic.muted = false;
-        
-        // Configurar eventos del audio
-        window.backgroundMusic.addEventListener('canplaythrough', function() {
-            console.log('Audio listo para reproducir');
-            tryPlayMusic();
-        });
-        
-        window.backgroundMusic.addEventListener('error', function(e) {
-            console.log('Error al cargar audio:', e);
-        });
-        
-        musicInitialized = true;
-        console.log('Sistema de música inicializado');
-    }
-}
-
-function tryPlayMusic() {
-    if (window.backgroundMusic) {
-        window.backgroundMusic.currentTime = 0;
-        window.backgroundMusic.play().then(() => {
-            console.log('Música reproduciéndose correctamente');
-        }).catch(e => {
-            console.log('No se pudo reproducir automáticamente:', e.message);
-            console.log('Esto es normal - haz click en cualquier parte para iniciar la música');
-            // Intentar con interacción del usuario
-            setupUserInteraction();
-        });
-    }
-}
-
-function setupUserInteraction() {
-    const startMusic = () => {
-        if (window.backgroundMusic) {
-            window.backgroundMusic.play().then(() => {
-                console.log('Música iniciada por interacción del usuario');
-                // Remover listeners después del éxito
-                document.removeEventListener('click', startMusic);
-                document.removeEventListener('touchstart', startMusic);
-                document.removeEventListener('keydown', startMusic);
-            }).catch(e => {
-                console.log('Error al iniciar música:', e);
-            });
-        }
-    };
+    // Crear elemento de audio
+    window.backgroundMusic = new Audio("Runnin' Home to You.mp3");
+    window.backgroundMusic.loop = true;
+    window.backgroundMusic.volume = 0.3;
+    window.backgroundMusic.preload = 'auto';
     
-    // Agregar listeners para interacción
-    document.addEventListener('click', startMusic, { once: true });
-    document.addEventListener('touchstart', startMusic, { once: true });
-    document.addEventListener('keydown', startMusic, { once: true });
+    // Configurar para reproducción automática
+    window.backgroundMusic.muted = false;
+    window.backgroundMusic.autoplay = true;
+    
+    // Intentar reproducir inmediatamente
+    window.backgroundMusic.play().catch(e => {
+        console.log('Música configurada, se reproducirá automáticamente');
+    });
+    
+    console.log('Sistema de música inicializado');
 }
-
-// Reiniciar música al recargar la página
-window.addEventListener('beforeunload', function() {
-    if (window.backgroundMusic) {
-        window.backgroundMusic.pause();
-        window.backgroundMusic.currentTime = 0;
-    }
-});
-
-// Reiniciar música cuando se carga la página
-window.addEventListener('load', function() {
-    if (window.backgroundMusic) {
-        window.backgroundMusic.currentTime = 0;
-        tryPlayMusic();
-    }
-});
 
 // ===== SISTEMA PRINCIPAL =====
 document.addEventListener('DOMContentLoaded', function() {
@@ -88,58 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar música
     initMusic();
     
-    // Agregar botón de debug para probar música
-    const debugButton = document.createElement('button');
-    debugButton.innerHTML = '🎵 Probar Música';
-    debugButton.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: #FF6B6B;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 20px;
-        font-size: 14px;
-        cursor: pointer;
-        z-index: 1001;
-        box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
-    `;
-    
-    debugButton.addEventListener('click', function() {
-        console.log('Botón de música presionado');
-        if (window.backgroundMusic) {
-            console.log('Estado del audio:', {
-                paused: window.backgroundMusic.paused,
-                currentTime: window.backgroundMusic.currentTime,
-                duration: window.backgroundMusic.duration,
-                readyState: window.backgroundMusic.readyState,
-                src: window.backgroundMusic.src
-            });
-            
-            if (window.backgroundMusic.paused) {
-                window.backgroundMusic.play().then(() => {
-                    console.log('Música iniciada manualmente');
-                    debugButton.innerHTML = '⏸️ Pausar';
-                }).catch(e => {
-                    console.log('Error al iniciar música:', e);
-                    alert('Error: ' + e.message);
-                });
-            } else {
-                window.backgroundMusic.pause();
-                debugButton.innerHTML = '🎵 Probar Música';
-            }
-        } else {
-            console.log('No hay objeto de música');
-            alert('No se ha inicializado el objeto de música');
-        }
-    });
-    
-    document.body.appendChild(debugButton);
-    
     // Crear mensaje de instrucción
     const instructionMessage = document.createElement('div');
-    instructionMessage.innerHTML = 'Presiona muchas veces la pantalla';
+    instructionMessage.innerHTML = '❤️🌻 Presiona la pantalla 🌻❤️';
     instructionMessage.style.cssText = `
         position: fixed;
         top: 20px;
@@ -155,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
         animation: bounce 2s infinite;
         box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
         font-family: 'Georgia', serif;
-        text-align: center;
     `;
     document.body.appendChild(instructionMessage);
     
@@ -347,16 +239,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const subtitle = romanticMessage.querySelector('.message-subtitle');
                 
                 if (title) {
-                    title.textContent = 'Mi amor eterno';
+                    title.textContent = 'Quiero que sepas que te amo con todo mi corazón';
                     title.style.color = '#FF69B4';
                 }
                 
                 if (text) {
-                    text.textContent = 'Cada día a tu lado es un regalo del cielo';
+                    text.textContent = 'espero que este pequeño detalle te haga sonreir y que me vuelvas a aceptar como tu novio';
                 }
                 
                 if (subtitle) {
-                    subtitle.textContent = 'ERES MI TODO';
+                    subtitle.textContent = 'Perdon por ser tan grosero  a veces 😔';
                     subtitle.style.color = '#FF1493';
                 }
                 
