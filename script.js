@@ -1,44 +1,27 @@
-// ===== SISTEMA DE MÚSICA SIMPLE =====
-window.backgroundMusic = null;
+// ===== SISTEMA DE MÚSICA =====
+let backgroundMusic = null;
 
+// Función para inicializar música
 function initMusic() {
-    // Crear elemento de audio
-    window.backgroundMusic = new Audio("Runnin' Home to You.mp3");
-    window.backgroundMusic.loop = true;
-    window.backgroundMusic.volume = 0.3;
-    window.backgroundMusic.preload = 'auto';
+    backgroundMusic = new Audio("Runnin' Home to You.mp3");
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.3;
+    backgroundMusic.preload = 'auto';
     
-    // Intentar reproducir inmediatamente
-    window.backgroundMusic.play().catch(e => {
-        console.log('Música configurada, se iniciará con interacción del usuario');
-    });
-    
-    console.log('Sistema de música inicializado');
+    console.log('Música inicializada');
 }
 
-// Iniciar música con cualquier interacción del usuario
-function startMusicOnInteraction() {
-    if (window.backgroundMusic) {
-        window.backgroundMusic.currentTime = 0;
-        window.backgroundMusic.play().then(() => {
-            console.log('Música iniciada por interacción del usuario');
-            // Remover listeners después del éxito
-            document.removeEventListener('click', startMusicOnInteraction);
-            document.removeEventListener('touchstart', startMusicOnInteraction);
-            document.removeEventListener('keydown', startMusicOnInteraction);
+// Función para iniciar música
+function startMusic() {
+    if (backgroundMusic) {
+        backgroundMusic.currentTime = 0;
+        backgroundMusic.play().then(() => {
+            console.log('Música reproduciéndose');
         }).catch(e => {
-            console.log('Error al iniciar música:', e);
+            console.log('Error al reproducir música:', e);
         });
     }
 }
-
-// Reiniciar música al recargar la página
-window.addEventListener('beforeunload', function() {
-    if (window.backgroundMusic) {
-        window.backgroundMusic.pause();
-        window.backgroundMusic.currentTime = 0;
-    }
-});
 
 // ===== SISTEMA PRINCIPAL =====
 document.addEventListener('DOMContentLoaded', function() {
@@ -50,10 +33,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar música
     initMusic();
     
-    // Configurar para iniciar música con interacción
-    document.addEventListener('click', startMusicOnInteraction, { once: true });
-    document.addEventListener('touchstart', startMusicOnInteraction, { once: true });
-    document.addEventListener('keydown', startMusicOnInteraction, { once: true });
+    // Intentar iniciar música inmediatamente
+    startMusic();
+    
+    // Si no funciona, iniciar con click
+    let musicStarted = false;
+    const startMusicOnClick = () => {
+        if (!musicStarted) {
+            startMusic();
+            musicStarted = true;
+            // Remover listeners
+            document.removeEventListener('click', startMusicOnClick);
+            document.removeEventListener('touchstart', startMusicOnClick);
+        }
+    };
+    
+    document.addEventListener('click', startMusicOnClick);
+    document.addEventListener('touchstart', startMusicOnClick);
     
     // Crear mensaje de instrucción
     const instructionMessage = document.createElement('div');
@@ -125,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 heart.style.position = 'fixed';
                 heart.style.left = Math.random() * (window.innerWidth - 50) + 'px';
                 heart.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-                heart.style.fontSize = (Math.random() * 20 + 25) + 'px'; // Entre 25px y 45px
+                heart.style.fontSize = (Math.random() * 20 + 25) + 'px';
                 heart.style.animation = 'heartFloat 4s ease-out forwards';
                 heart.style.pointerEvents = 'none';
                 heart.style.zIndex = '15';
@@ -149,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 sunflower.style.position = 'fixed';
                 sunflower.style.left = Math.random() * (window.innerWidth - 50) + 'px';
                 sunflower.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-                sunflower.style.fontSize = (Math.random() * 15 + 20) + 'px'; // Entre 20px y 35px
+                sunflower.style.fontSize = (Math.random() * 15 + 20) + 'px';
                 sunflower.style.animation = 'sunflowerFloat 5s ease-out forwards';
                 sunflower.style.pointerEvents = 'none';
                 sunflower.style.zIndex = '15';
@@ -164,26 +160,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 5000);
             }, (i + heartCount) * 150);
         }
-    }
-    
-    // Función para crear corazón en posición específica (mantener para compatibilidad)
-    function createHeart(x, y) {
-        const heart = document.createElement('div');
-        heart.innerHTML = '💖';
-        heart.style.position = 'absolute';
-        heart.style.left = x + 'px';
-        heart.style.top = y + 'px';
-        heart.style.fontSize = '30px';
-        heart.style.animation = 'heartFloat 3s ease-out forwards';
-        heart.style.pointerEvents = 'none';
-        heart.style.zIndex = '15';
-        document.body.appendChild(heart);
-        
-        setTimeout(() => {
-            if (heart.parentNode) {
-                heart.parentNode.removeChild(heart);
-            }
-        }, 3000);
     }
     
     // Efecto de click en toda la pantalla
@@ -222,10 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
-                    createHeart(
-                        Math.random() * window.innerWidth,
-                        Math.random() * window.innerHeight
-                    );
+                    createRandomHearts();
                 }, i * 200);
             }
         });
@@ -286,9 +259,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 15000); // 15 segundos
     }
     
-    
     // Iniciar temporizador de cambio de mensaje
     cambiarMensaje();
+});
+
+// Reiniciar música al recargar la página
+window.addEventListener('beforeunload', function() {
+    if (backgroundMusic) {
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;
+    }
 });
 
 // Animaciones CSS
