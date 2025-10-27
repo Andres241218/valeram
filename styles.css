@@ -1,0 +1,291 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Georgia', serif;
+    overflow: hidden;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background: #000;
+    color: #fff;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Imagen de fondo */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('flowers-7173644_1280.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 1;
+}
+
+/* Mensaje romántico */
+.romantic-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    animation: messageFadeIn 2s ease-out;
+    max-width: 80%;
+}
+
+.message-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #FFD700;
+    margin: 0 0 20px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    animation: titleGlow 3s ease-in-out infinite alternate;
+    font-family: 'Georgia', serif;
+}
+
+.message-text {
+    font-size: 1.8rem;
+    color: #FFFFFF;
+    margin: 0 0 15px 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    animation: textFloat 4s ease-in-out infinite;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+}
+
+.message-subtitle {
+    font-size: 1.4rem;
+    color: #FFA500;
+    margin: 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    animation: subtitlePulse 2s ease-in-out infinite;
+    font-family: 'Georgia', serif;
+}
+
+/* Contenedor del video */
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Video romántico */
+.romantic-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 15px;
+    /* Recortar para ocultar marca de agua */
+    clip-path: inset(10% 5% 5% 5%);
+    transform: scale(1.1);
+}
+
+/* Efectos de partículas */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #FFD700;
+    border-radius: 50%;
+    animation: particleFloat 6s linear infinite;
+    box-shadow: 0 0 10px #FFD700;
+}
+
+/* Audio oculto */
+audio {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Animaciones */
+@keyframes messageFadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes titleGlow {
+    0% {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px #FFD700;
+    }
+    100% {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 30px #FFD700, 0 0 40px #FFA500;
+    }
+}
+
+@keyframes textFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes subtitlePulse {
+    0%, 100% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive - Optimizado para Mobile */
+@media (max-width: 768px) {
+    .message-title {
+        font-size: 2.5rem;
+    }
+    
+    .message-text {
+        font-size: 1.4rem;
+    }
+    
+    .message-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .romantic-message {
+        padding: 30px;
+        max-width: 90%;
+    }
+    
+    .video-container {
+        height: 250px;
+    }
+    
+    .romantic-video {
+        clip-path: inset(8% 3% 3% 3%);
+    }
+    
+    .background-image {
+        background-size: cover;
+        background-position: center center;
+    }
+}
+
+@media (max-width: 480px) {
+    .message-title {
+        font-size: 2rem;
+    }
+    
+    .message-text {
+        font-size: 1.2rem;
+    }
+    
+    .message-subtitle {
+        font-size: 1rem;
+    }
+    
+    .romantic-message {
+        padding: 20px;
+        max-width: 95%;
+    }
+    
+    .video-container {
+        height: 200px;
+    }
+    
+    .romantic-video {
+        clip-path: inset(5% 2% 2% 2%);
+    }
+    
+    .background-image {
+        background-size: cover;
+        background-position: center center;
+    }
+}
+
+/* Optimización para pantallas muy pequeñas */
+@media (max-width: 360px) {
+    .message-title {
+        font-size: 1.8rem;
+    }
+    
+    .message-text {
+        font-size: 1rem;
+    }
+    
+    .message-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .video-container {
+        height: 180px;
+    }
+    
+    .romantic-video {
+        clip-path: inset(3% 1% 1% 1%);
+    }
+    
+    .background-image {
+        object-fit: cover;
+        object-position: center center;
+    }
+}
