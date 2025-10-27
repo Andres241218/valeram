@@ -8,17 +8,37 @@ function initMusic() {
     window.backgroundMusic.volume = 0.3;
     window.backgroundMusic.preload = 'auto';
     
-    // Configurar para reproducción automática
-    window.backgroundMusic.muted = false;
-    window.backgroundMusic.autoplay = true;
-    
     // Intentar reproducir inmediatamente
     window.backgroundMusic.play().catch(e => {
-        console.log('Música configurada, se reproducirá automáticamente');
+        console.log('Música configurada, se iniciará con interacción del usuario');
     });
     
     console.log('Sistema de música inicializado');
 }
+
+// Iniciar música con cualquier interacción del usuario
+function startMusicOnInteraction() {
+    if (window.backgroundMusic) {
+        window.backgroundMusic.currentTime = 0;
+        window.backgroundMusic.play().then(() => {
+            console.log('Música iniciada por interacción del usuario');
+            // Remover listeners después del éxito
+            document.removeEventListener('click', startMusicOnInteraction);
+            document.removeEventListener('touchstart', startMusicOnInteraction);
+            document.removeEventListener('keydown', startMusicOnInteraction);
+        }).catch(e => {
+            console.log('Error al iniciar música:', e);
+        });
+    }
+}
+
+// Reiniciar música al recargar la página
+window.addEventListener('beforeunload', function() {
+    if (window.backgroundMusic) {
+        window.backgroundMusic.pause();
+        window.backgroundMusic.currentTime = 0;
+    }
+});
 
 // ===== SISTEMA PRINCIPAL =====
 document.addEventListener('DOMContentLoaded', function() {
@@ -30,9 +50,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar música
     initMusic();
     
+    // Configurar para iniciar música con interacción
+    document.addEventListener('click', startMusicOnInteraction, { once: true });
+    document.addEventListener('touchstart', startMusicOnInteraction, { once: true });
+    document.addEventListener('keydown', startMusicOnInteraction, { once: true });
+    
     // Crear mensaje de instrucción
     const instructionMessage = document.createElement('div');
-    instructionMessage.innerHTML = '❤️🌻 Presiona la pantalla 🌻❤️';
+    instructionMessage.innerHTML = 'Presiona muchas veces la pantalla';
     instructionMessage.style.cssText = `
         position: fixed;
         top: 20px;
@@ -48,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animation: bounce 2s infinite;
         box-shadow: 0 4px 15px rgba(255, 20, 147, 0.4);
         font-family: 'Georgia', serif;
+        text-align: center;
     `;
     document.body.appendChild(instructionMessage);
     
@@ -239,16 +265,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 const subtitle = romanticMessage.querySelector('.message-subtitle');
                 
                 if (title) {
-                    title.textContent = 'Quiero que sepas que te amo con todo mi corazón';
+                    title.textContent = 'Mi amor eterno';
                     title.style.color = '#FF69B4';
                 }
                 
                 if (text) {
-                    text.textContent = 'espero que este pequeño detalle te haga sonreir y que me vuelvas a aceptar como tu novio';
+                    text.textContent = 'Cada día a tu lado es un regalo del cielo';
                 }
                 
                 if (subtitle) {
-                    subtitle.textContent = 'Perdon por ser tan grosero  a veces 😔';
+                    subtitle.textContent = 'ERES MI TODO';
                     subtitle.style.color = '#FF1493';
                 }
                 
